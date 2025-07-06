@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Scan Attendance{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">🎫 Mark Attendance</h2>
+    <form method="POST" class="d-flex flex-column align-items-start">
+        {% csrf_token %}
+        <label for="ticket_id" class="form-label">Enter Ticket ID:</label>
+        <input type="text" id="ticket_id" name="ticket_id" class="form-control mb-3" placeholder="e.g. TICK1234" required>
+        <button type="submit" class="btn btn-primary">Mark Attendance</button>
+    </form>
+
+    {% if status == 'success' %}
+        <div class="alert alert-success mt-4">
+            ✅ Attendance marked for ticket ID <strong>{{ ticket_id }}</strong>
+        </div>
+    {% elif status == 'fail' %}
+        <div class="alert alert-danger mt-4">
+            ❌ Invalid or already marked ticket ID: <strong>{{ ticket_id }}</strong>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

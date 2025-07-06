@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Scan QR Code</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        #reader {
+            width: 300px;
+            margin: auto;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .fail {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>🎟️ Scan Ticket QR Code</h2>
+    <div id="reader"></div>
+    <div class="result" id="resultMsg"></div>
+
+    <script>
+        function handleScanSuccess(ticketId) {
+            fetch(`/api/attend/${ticketId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    const msg = document.getElementById("resultMsg");
+                    if (data.success) {
+                        msg.innerHTML = `✅ Attendance marked for Ticket ID: <b>${ticketId}</b>`;
+                        msg.className = "result success";
+                    } else {
+                        msg.innerHTML = `❌ ${data.error}`;
+                        msg.className = "result fail";
+                    }
+                });
+        }
+
+        const html5QrCode = new Html5Qrcode("reader");
+
+        html5QrCode.start(
+            { facingMode: "environment" }, // use back camera on phones
+            {
+                fps: 10,
+                qrbox: 250
+            },
+            (decodedText, decodedResult) => {
+                html5QrCode.stop();  // stop scanning once decoded
+                handleScanSuccess(decodedText);
+            },
+            (errorMessage) => {
+                // Optional: handle scan errors
+            }
+        ).catch(err => {
+            document.getElementById("resultMsg").innerText = "Camera access denied or error occurred.";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 500px;">
+    <h2 class="mb-4">👤 Sign Up</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- 🔽 Basic fields (username, password) -->
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm Password:</label>
+            <input type="password" name="confirm_password" class="form-control" required>
+        </div>
+
+        <!-- 🔽 Role selection -->
+        <div class="mb-3">
+            <label for="role" class="form-label">Register As:</label>
+            <select name="role" class="form-select" id="role" onchange="toggleCodeField()" required>
+                <option value="">Select Role</option>
+                <option value="participant">Participant</option>
+                <option value="organiser">Organiser</option>
+            </select>
+        </div>
+
+        <!-- 🔐 Organiser Code (shows only if organiser selected) -->
+       
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+</div>
+
+
+{% endblock %}

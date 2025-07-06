@@ -1,0 +1,19 @@
+# Django stuff
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+*.log
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+
+# Python
+venv/
+*.egg-info
+
+# Media files (optional)
+media/

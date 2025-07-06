@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>🎯 Mark Attendance</h1>
+
+<form method="POST" action="/api/attend/submit/">
+  {% csrf_token %}
+  <label for="ticket_id">Enter Ticket ID:</label>
+  <input type="text" name="ticket_id" id="ticket_id" required>
+  <button type="submit">Mark Attendance</button>
+</form>
+
+{% if success %}
+  <p style="color: green;">✅ {{ message }}</p>
+{% elif error %}
+  <p style="color: red;">❌ {{ message }}</p>
+{% endif %}
+
+
+</body>
+</html>

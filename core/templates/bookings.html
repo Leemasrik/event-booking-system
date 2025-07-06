@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>📋 Your Bookings</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Ticket ID</th>
+                <th>Status</th>
+                <th>QR Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.event.title }}</td>
+                <td>{{ booking.ticket_id }}</td>
+                <td>{{ booking.status }}</td>
+                <td>
+                    {% if booking.qr_code_path %}
+                    <a href="/media/{{ booking.qr_code_path }}" target="_blank">View QR</a>
+                    {% else %}
+                    Not Generated
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No bookings found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

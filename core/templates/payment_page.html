@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Payment Page{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2>💳 Payment for {{ event.title }}</h2>
+    <p class="lead">Amount: ₹{{ event.price }}</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button class="btn btn-success btn-lg">Pay Now</button>
+    </form>
+</div>
+{% endblock %}

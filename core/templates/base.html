@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Event Ticketing{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- ✅ Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">🎉 EventSys</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                {% if user.is_authenticated %}
+                    {% with user.profile.role as role %}
+                        {% if role == 'organiser' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'create_event' %}">➕ Add Event</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'scan_attendance' %}">📲 Attendance</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'scan_qr' %}">🔍 Scan QR</a>
+                            </li>
+                        {% elif role == 'participant' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'event_list' %}">🎫 Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'booking_list' %}">📋 Bookings</a>
+                            </li>
+                        {% endif %}
+                    {% endwith %}
+
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'event_list' %}">🎫 Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/">Admin</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ✅ Greeting -->
+{% if user.is_authenticated %}
+    <div class="container mt-3">
+        <div class="alert alert-primary text-center" role="alert">
+            👋 Hello, <strong>{{ user.username }}</strong>! Welcome back.
+        </div>
+    </div>
+{% endif %}
+
+<!-- ✅ Page content -->
+<main class="container py-4">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<!-- Bootstrap JS for navbar toggling -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
